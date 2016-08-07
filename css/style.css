@@ -1,0 +1,34 @@
+body {
+  background-color: #F2E9CE;
+}
+
+#titlesection {
+  text-align: center;
+  font-family: "Florence", cursive;
+  color: #392240;
+}
+
+#search-term {
+  text-align: center;
+  padding-bottom: 5%;
+
+}
+
+h3 {
+  color: #392240;
+  font-family: fantasy;
+}
+
+#submitbutton {
+  background-color: #734670;
+  color: #F2E9CE;
+}
+
+#query {
+  width: 25%;
+}
+
+li {
+  list-style: none;
+  margin-left: 38%;
+}

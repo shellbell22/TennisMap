@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>FindATournament</title>
+	<link rel="stylesheet" href="css/normalize.css">
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="css/lightbox.css">
+</head>
+<body>
+
+<!-- title section -->
+	<section id="titlesection">
+		<h1> Find A Nearby Tennis Tournament </h1>
+	</section>
+
+<!-- Input Section -->
+	<section id="searchtermsection">
+	<form id="search-term">
+		<h3> When do you want to play? </h3>
+		<!-- get the date input type, beginning date, ending date -->
+		<input type="text" id="beginningdate" name="begin">
+		<br>
+		<input type="text" id="endingdate" name="end">
+		<br>
+		<input type="submit" id="submitbutton" value="Submit">
+		<br>
+	</form>
+</section>
+
+<!-- Display Map and results next to it-->
+<section id="mapsection">
+	<div id="mapdisplay">
+	</div>
+	<div id="search-results">
+		<ul>
+		</ul>
+	</div>
+<div id="nextpagebutton">
+	<button id="nextpage" value="More Results"> More Results </button>
+</div>
+</section>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script type="text/javascript" src="js/app.js"></script>
+<script type="text/javascript" src="js/lightbox.js"></script>
+
+</body>
+
+</html>
