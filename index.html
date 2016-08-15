@@ -3,27 +3,26 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>FindATournament</title>
+	<title>FindSomeTennis</title>
 	<link rel="stylesheet" href="css/normalize.css">
 	<link rel="stylesheet" href="css/style.css">
 	<link rel="stylesheet" href="css/lightbox.css">
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
+
 </head>
 <body>
 
 <!-- title section -->
 	<section id="titlesection">
-		<h1> Find A Nearby Tennis Tournament </h1>
+		<h1> Find A Nearby Tennis Meetup </h1>
 	</section>
 
 <!-- Input Section -->
 	<section id="searchtermsection">
 	<form id="search-term">
-		<h3> When do you want to play? </h3>
-		<!-- get the date input type, beginning date, ending date -->
-		<input type="text" id="beginningdate" name="begin">
-		<br>
-		<input type="text" id="endingdate" name="end">
-		<br>
+		<p> City: <input type="text" id="cityinput" name="city"> </p>
+		<p> State: <input type="text" id="stateinput" name="state"> </p>
+			<p> Zip: <input type="text" id="zipinput" name="zip"> </p>
 		<input type="submit" id="submitbutton" value="Submit">
 		<br>
 	</form>
@@ -31,8 +30,7 @@
 
 <!-- Display Map and results next to it-->
 <section id="mapsection">
-	<div id="mapdisplay">
-	</div>
+		<div id="googleMap" class="mapping"></div>
 	<div id="search-results">
 		<ul>
 		</ul>
@@ -45,8 +43,8 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script type="text/javascript" src="js/app.js"></script>
-<script type="text/javascript" src="js/lightbox.js"></script>
-
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAw4baZsaSAhJJeGsVDTxZ2Cs3Y5ZlB8dU&callback=initialize"></script>
+<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
 </body>
 
 </html>

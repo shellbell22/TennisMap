@@ -1,17 +1,36 @@
 var token;
+var map;
+var bounds;
+var apiGoogleKey = "AIzaSyAw4baZsaSAhJJeGsVDTxZ2Cs3Y5ZlB8dU";
+var apiMeetupKey = "4d6873686d486c47731744524257d17";
+var apiActiveKey = "99txw4fpygq26mqamhq5ueha";
 
-var apiKey = AIzaSyAw4baZsaSAhJJeGsVDTxZ2Cs3Y5ZlB8dU;
+//http://stackoverflow.com/questions/1556921/google-map-api-v3-set-bounds-and-center
+
+/* meetup api key http://www.meetup.com/meetup_api/auth/#keysign */
+
 
 $(function() {
+
+  String.prototype.trunc = String.prototype.trunc ||
+        function(n){
+            return (this.length > n) ? this.substr(0,n-1)+'&hellip;' : this;
+        };
+
     $('#search-term').submit(function(event) {
         event.preventDefault();
-        var searchTerm = $('#query').val();
+        var aCityTerm = $('#cityinput').val();
+        var aStateTerm = $('#stateinput').val();
+        var aZipTerm = $('#zipinput').val();
+        //  var startTerm = $('#beginningdate').val();
+        //  var endTerm = $('#endingdate').val();
         $('#search-results').empty();
-        getRequest(searchTerm);
+        getMeetupRequest(aStateTerm, aCityTerm);
 
     });
 
-    $('#nextpage').click(function () {
+
+    $('#nextpage').click(function() {
         var searchTerm = $('#query').val();
 
         getRequest(searchTerm, token);
@@ -20,32 +39,83 @@ $(function() {
 
 });
 
-function getRequest(searchTerm, tokenInput) {
-	var params = {
-		part:'snippet',
-    key: 'AIzaSyA3_pbYGu7QwIGraJ7MwH0eM09KZR9U2yA',
-    q: searchTerm,
-    pageToken: tokenInput
-	};
-	url = 'https://www.googleapis.com/youtube/v3/search';
+function getMeetupRequest(astate, acity, azipcode) {
+    /* Edit this one for Active */
+    var params = {
+        sign: 'true',
+        key: '4d6873686d486c47731744524257d17',
+        topic: 'tennis',
+        country: 'us',
+        city: acity,
+        state: astate,
+        zip: azipcode
+    };
+    url = 'https://api.meetup.com/2/open_events?callback=?';
+    $.getJSON(url, params, callback);
+    //token = data.nextPageToken;
+    //showResults(data.items);
+}
 
-	$.getJSON(url, params, function(data) {
-      console.log(data);
-      token = data.nextPageToken;
-		showResults(data.items);
-	});
+function callback(data) {
+    console.log(data);
+
+    var bounds = new google.maps.LatLngBounds();
+    //var infowindow = new google.maps.InfoWindow();
+
+
+
+    //Use API data to make an array of lat, longs for each event
+    var markersarray = [];
+    for (i = 0; i < data.results.length; i++) {
+        if (data.results[i].venue && data.results[i].venue.lat !== 0)
+            markersarray.push({
+                name: data.results[i].name,
+                lat: data.results[i].venue.lat,
+                lon: data.results[i].venue.lon,
+                description: data.results[i].description
+            });
+    }
+
+    // Display multiple markers on a map
+      var infoWindow = new google.maps.InfoWindow();
+
+    // create markers for the events
+    for (i = 0; i < markersarray.length; i++) {
+        var marker = new google.maps.Marker({
+            position: new google.maps.LatLng(markersarray[i].lat, markersarray[i].lon),
+            map: map
+        });
+        //extend the bounds to include each marker
+        bounds.extend(marker.position);
+        var item = markersarray[i];
+        // Allow each marker to have an info window
+        google.maps.event.addListener(marker, 'click', (function(marker, item) {
+            return function() {
+                infoWindow.setContent('<div class="info_content">' + '<h3>' + item.name + '</h3>' + item.description + '</div>');
+                infoWindow.open(map, marker);
+            };
+        })(marker, item));
+
+    }
+    //fit the map to the newly inclusive bounds
+    map.fitBounds(bounds);
 }
 
 
-function showResults(results) {
-    var html = "";
-    $.each(results, function(index, value) {
-        var thumbnailimage = value.snippet.thumbnails.medium.url;
-        var largethumbnailimage = value.snippet.thumbnails.high.url;
-        var channellink = 'https://www.youtube.com/channel/' + value.snippet.channelId;
-        var channelname = value.snippet.channelTitle;
-        var link = 'https://www.youtube.com/watch?v=' +  value.id.videoId;
-        html += '<li><a target="_new" href="'+link+'"><h1>'+ value.snippet.title +'</h1></a><a target="_new" href="' + channellink + '"><h2>' + channelname + '</h2></a><a  data-lightbox="' + largethumbnailimage + '" href="' + largethumbnailimage + '"><img src="' + thumbnailimage + '"></a></li>';
-    });
-    $('#search-results').append(html);
+/* initialize map */
+function initialize() {
+    //var bounds = new google.maps.LatLngBounds();
+    var mapOptions = {
+        center: {
+            lat: -34.397,
+            lng: 150.644
+        },
+        mapTypeId: 'roadmap',
+        zoom: 8
+    };
+
+    //displaying a map on page
+    map = new google.maps.Map(document.getElementById("googleMap"), mapOptions);
+    map.setTilt(45);
+
 }
