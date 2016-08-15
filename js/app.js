@@ -22,8 +22,6 @@ $(function() {
         var aCityTerm = $('#cityinput').val();
         var aStateTerm = $('#stateinput').val();
         var aZipTerm = $('#zipinput').val();
-        //  var startTerm = $('#beginningdate').val();
-        //  var endTerm = $('#endingdate').val();
         $('#search-results').empty();
         getMeetupRequest(aStateTerm, aCityTerm);
 
