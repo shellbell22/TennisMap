@@ -67,7 +67,8 @@ function callback(data) {
                 name: data.results[i].name,
                 lat: data.results[i].venue.lat,
                 lon: data.results[i].venue.lon,
-                description: data.results[i].description
+                description: data.results[i].description,
+                url: data.results[i].event_url
             });
     }
 
@@ -86,7 +87,7 @@ function callback(data) {
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function(marker, item) {
             return function() {
-                infoWindow.setContent('<div class="info_content">' + '<h3>' + item.name + '</h3>' + item.description + '</div>');
+                infoWindow.setContent('<div class="info_content">' + '<h3><a href="'+ item.url + '">' + item.name + '</a></h3>' + '<p>' + item.description + '</p></div>');
                 infoWindow.open(map, marker);
             };
         })(marker, item));
@@ -96,7 +97,7 @@ function callback(data) {
     //fit the map to the newly inclusive bounds
     map.fitBounds(bounds);
     else {
-      alert("Sorry! No Tennis Meetups Nearby")
+      alert("Sorry! No Tennis Meetups Nearby");
     }
 }
 
