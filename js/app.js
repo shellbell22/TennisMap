@@ -106,8 +106,8 @@ function initialize() {
     //var bounds = new google.maps.LatLngBounds();
     var mapOptions = {
         center: {
-            lat: -34.397,
-            lng: 150.644
+            lat: 38.8904,
+            lng: -77.0352
         },
         mapTypeId: 'roadmap',
         zoom: 8
