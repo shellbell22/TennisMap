@@ -19,33 +19,30 @@ $(function() {
 
     $('#search-term').submit(function(event) {
         event.preventDefault();
-        var aCityTerm = $('#cityinput').val();
-        var aStateTerm = $('#stateinput').val();
         var aZipTerm = $('#zipinput').val();
         $('#search-results').empty();
-        getMeetupRequest(aStateTerm, aCityTerm);
-
+        getMeetupRequest(aZipTerm);
     });
 
 
     $('#nextpage').click(function() {
         var searchTerm = $('#query').val();
-
         getRequest(searchTerm, token);
 
     });
 
 });
 
-function getMeetupRequest(astate, acity, azipcode) {
+
+function getMeetupRequest(azipcode) {
     /* Edit this one for Active */
     var params = {
         sign: 'true',
         key: '4d6873686d486c47731744524257d17',
         topic: 'tennis',
         country: 'us',
-        city: acity,
-        state: astate,
+        //city: acity,
+        //state: astate,
         zip: azipcode
     };
     url = 'https://api.meetup.com/2/open_events?callback=?';
@@ -95,8 +92,12 @@ function callback(data) {
         })(marker, item));
 
     }
+    if (data.results.length > 1)
     //fit the map to the newly inclusive bounds
     map.fitBounds(bounds);
+    else {
+      alert("Sorry! No Tennis Meetups Nearby")
+    }
 }
 
 
